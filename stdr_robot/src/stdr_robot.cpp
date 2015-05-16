@@ -60,20 +60,23 @@ namespace stdr_robot
     _moveRobotService = n.advertiseService(
       getName() + "/replace", &Robot::moveRobotCallback, this);
 
+    //fixme: config file parameter more reasonable?
     //set the ground truth update frequency.
-    double gtFrequency;
-    n.param<double>("ground_truth_frequency", gtFrequency, 10.0);
-    if(gtFrequency <= 0)
-    {
-      ROS_WARN("Desired frequency is to low (<= 0). Frequency is set to 1 Hz");
-      gtFrequency = 1.0;
-    }
-    ROS_ERROR("Frequency: %f", gtFrequency);
+//    ros::NodeHandle prvNh;
+//    double gtFrequency;
+//    n.param<double>(getName() + "ground_truth_frequency", gtFrequency, 10.0);
+//    ROS_ERROR("TEST: %d",n.hasParam(getName()+"ground_truth_frequency"));
+//    if(gtFrequency <= 0)
+//    {
+//      ROS_WARN("Desired frequency is to low (<= 0). Frequency is set to 1 Hz");
+//      gtFrequency = 1.0;
+//    }
+//    ROS_ERROR("Frequency: %f", gtFrequency);
 
     //we should not start the timer, until we hame a motion controller
     _tfTimer = n.createTimer(
-      ros::Duration( 1.0 / gtFrequency), &Robot::publishTransforms, this, false, false);
-    ROS_ERROR("time: %f",1.0 /gtFrequency);
+      ros::Duration( 0.01), &Robot::publishTransforms, this, false, false);
+//    ROS_ERROR("time: %f",1.0 /gtFrequency);
   }
 
   /**
