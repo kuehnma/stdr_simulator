@@ -60,9 +60,9 @@ namespace stdr_robot
     _moveRobotService = n.advertiseService(
       getName() + "/replace", &Robot::moveRobotCallback, this);
 
-    //set the ground truth update frequency. At least one Her
+    //set the ground truth update frequency.
     double gtFrequency;
-    n.param<double>("ground_truth_frequency", gtFrequency, 100.0);
+    n.param<double>("ground_truth_frequency", gtFrequency, 10.0);
     if(gtFrequency <= 0)
     {
       ROS_WARN("Desired frequency is to low (<= 0). Frequency is set to 1 Hz");
