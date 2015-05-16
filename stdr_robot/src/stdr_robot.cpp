@@ -60,9 +60,20 @@ namespace stdr_robot
     _moveRobotService = n.advertiseService(
       getName() + "/replace", &Robot::moveRobotCallback, this);
 
+    //set the ground truth update frequency. At least one Her
+    double gtFrequency;
+    n.param<double>("ground_truth_frequency", gtFrequency, 100.0);
+    if(gtFrequency <= 0)
+    {
+      ROS_WARN("Desired frequency is to low (<= 0). Frequency is set to 1 Hz");
+      gtFrequency = 1.0;
+    }
+    ROS_ERROR("Frequency: %f", gtFrequency);
+
     //we should not start the timer, until we hame a motion controller
     _tfTimer = n.createTimer(
-      ros::Duration(0.1), &Robot::publishTransforms, this, false, false);
+      ros::Duration( 1.0 / gtFrequency), &Robot::publishTransforms, this, false, false);
+    ROS_ERROR("time: %f",1.0 /gtFrequency);
   }
 
   /**
